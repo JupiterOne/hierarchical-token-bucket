@@ -1,0 +1,23 @@
+{
+  "name": "@jupiterone/hierarchical-token-bucket",
+  "version": "0.0.0",
+  "description": "A simple hierarchical token bucket",
+  "main": "dist/index.js",
+  "types": "dist/index.ts",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "rm -rf dist && yarn tsc"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.3"
+  }
+}
