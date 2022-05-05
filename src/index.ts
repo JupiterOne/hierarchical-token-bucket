@@ -44,7 +44,7 @@ export class HierarchicalTokenBucket {
   private firstTimestamp: number | undefined;
   private count: number = 0;
 
-  constructor(private options: HierarchicalTokenBucketOptions) {
+  constructor(private readonly options: HierarchicalTokenBucketOptions) {
     if (!(options.maximumCapacity >= 1)) {
       throw new Error('HierarchicalTokenBucket.maximumCapacity must be >= 1');
     }
