@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 0.2.0 - 2022-08-16
+
 ### Added
 
 - Added `withTokenBucket` helper function, which executes a callback with an appropriate
