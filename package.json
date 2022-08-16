@@ -1,6 +1,6 @@
 {
   "name": "@jupiterone/hierarchical-token-bucket",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple hierarchical token bucket",
   "main": "dist/index.js",
   "types": "dist/index.ts",
