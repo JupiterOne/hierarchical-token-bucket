@@ -141,6 +141,8 @@ export class HierarchicalTokenBucket {
    *
    * await fetch('https://my.target.host/that/supports/throttling')
    * ```
+   * See also withTokenBucket, which implements this functionality
+   * for a callback.
    *
    * @returns time to wait in milliseconds
    */
@@ -155,4 +157,27 @@ export class HierarchicalTokenBucket {
 
     return Math.max(minTimeToWait, timeForThisToWait, timeForParentToWait);
   }
+}
+
+async function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+/**
+ * Executes the callback function after a delay according to the 
+ * wait time returned by the tokenBucket.
+ * 
+ * Executes immediately if the tokenBucket indicates a wait time of 0.
+ *
+ * @returns Promise<T> according to the callback
+ */
+ export async function withTokenBucket<T>(
+  tokenBucket: HierarchicalTokenBucket,
+  cb: () => Promise<T>,
+): Promise<T> {
+  const timeToWaitInMs = tokenBucket.take();
+  await sleep(timeToWaitInMs);
+  return await cb();
 }
