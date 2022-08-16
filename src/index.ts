@@ -1,12 +1,14 @@
 export interface HierarchicalTokenBucketOptions {
   /**
    * The total number of requests allowed when the bucket is full.
+   * maximumCapacity should be >= 1.
    */
   maximumCapacity: number;
 
   /**
    * The number of requests to add to the bucket per second. The bucket
    * will never exceed `maximumCapacity` requests.
+   * refillRate should be > 0.
    */
   refillRate: number;
   parent?: HierarchicalTokenBucket;
@@ -56,9 +58,10 @@ export class HierarchicalTokenBucket {
     this.capacity = options.maximumCapacity;
   }
 
-  child(options: Omit<HierarchicalTokenBucketOptions, 'parent'>) {
+  child(options?: Omit<HierarchicalTokenBucketOptions, 'parent'>) {
     return new HierarchicalTokenBucket({
-      ...options,
+      maximumCapacity: options ? options.maximumCapacity : this.options.maximumCapacity,
+      refillRate: options ? options.refillRate : this.options.refillRate,
       parent: this
     });
   }

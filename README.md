@@ -41,6 +41,27 @@ await sleep(timeToWaitInMs);
 await fetch('https://my.rate-limited.resource');
 ```
 
+Alternately, this can be simplified by invoking `withTokenBucket`.
+
+```ts
+import { 
+  HierarchicalTokenBucket,
+  withTokenBucket
+} from '@jupiterone/hierarchical-token-bucket';
+
+const tokenBucket = new HierarchicalTokenBucket({
+  maximumCapacity: 100,
+  refillRate: 10
+});
+
+const cb = () => fetch('https://my.rate-limited.resource');
+await withTokenBucket(tokenBucket, cb);
+```
+One can also specify a child without passing options, in which case `maximumCapacity`
+and `refillRate` are inherited from the parent bucket. This means that the child
+bucket will not limit usage any more than the parent bucket would, but it might be
+useful when instrumenting code for optional limiting. 
+
 ## Class: `HierarchicalTokenBucket`
 
 ### `new HierarchicalTokenBucket(params)`
