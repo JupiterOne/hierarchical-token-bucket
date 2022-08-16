@@ -52,6 +52,20 @@ describe('HierarchicalTokenBucket', () => {
     });
   });
 
+  describe('child', () => {
+    test('should create a child whose options are the same as the parent', () => {
+      const parentBucket = new HierarchicalTokenBucket({
+        maximumCapacity: 100,
+        refillRate: 100
+      });
+
+      const childBucket = parentBucket.child();
+
+      expect(childBucket.metadata.options.maximumCapacity).toEqual(parentBucket.metadata.options.maximumCapacity);
+      expect(childBucket.metadata.options.refillRate).toEqual(parentBucket.metadata.options.refillRate);
+    });
+  });
+
   describe('refreshCapacity', () => {
     test('should return refillRate * elapsedTime if capacity was previously zero', () => {
       const bucket = new HierarchicalTokenBucket({
