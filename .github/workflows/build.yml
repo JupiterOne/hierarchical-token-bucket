@@ -53,7 +53,7 @@ jobs:
           if git describe --exact-match --match "v*.*.*" HEAD^2
           then
             echo "Found version commit tag. Publishing."
-            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+            echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > .npmrc
             yarn install
             yarn build
             npm publish
