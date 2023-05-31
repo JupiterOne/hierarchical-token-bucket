@@ -154,7 +154,7 @@ export class HierarchicalTokenBucket {
     this.refreshCapacity();
 
     const minTimeToWait = 0;
-    const timeForThisToWait = (1 - this.capacity) / this.options.refillRate;
+    const timeForThisToWait = (1 - this.capacity) / (this.options.refillRate / 1000);
     const timeForParentToWait = this.options.parent?.take() || 0;
     this.capacity -= 1;
 

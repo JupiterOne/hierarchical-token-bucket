@@ -67,14 +67,14 @@ describe('HierarchicalTokenBucket', () => {
   });
 
   describe('refreshCapacity', () => {
-    test('should return refillRate * elapsedTime if capacity was previously zero', () => {
+    test('should return refillRate * elapsedTime (in seconds) if capacity was previously zero', () => {
       const bucket = new HierarchicalTokenBucket({
         maximumCapacity: 100,
-        refillRate: 10
+        refillRate: 10 // refill 10 tokens per second
       });
 
       depleteBucketByCapacity(bucket, 100);
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1000); // after 1 second, there should be 10 tokens in bucket
 
       let i = 0;
       while (i < 10) {
@@ -82,7 +82,7 @@ describe('HierarchicalTokenBucket', () => {
         i++;
       }
 
-      expect(bucket.take()).toBe(0.1);
+      expect(bucket.take()).toBe(100);
     });
 
     test('should return maxCapacity if refilled beyond maxCapacity', () => {
@@ -101,7 +101,7 @@ describe('HierarchicalTokenBucket', () => {
         i++;
       }
 
-      expect(bucket.take()).toBe(0.1);
+      expect(bucket.take()).toBe(100);
     });
   });
 
@@ -123,7 +123,7 @@ describe('HierarchicalTokenBucket', () => {
       });
 
       depleteBucketByCapacity(bucket, 10);
-      expect(bucket.take()).toBe(1);
+      expect(bucket.take()).toBe(1000); // refill rate of grandParent is 1/second, so result should be 1000ms
     });
 
     test('should not take from other leaves off the same parent', () => {
@@ -143,7 +143,7 @@ describe('HierarchicalTokenBucket', () => {
       });
 
       depleteBucketByCapacity(bucket, 10);
-      expect(bucket.take()).toBe(1);
+      expect(bucket.take()).toBe(1000);
 
       expect(leafBucket.take()).toBe(0);
     });
@@ -169,7 +169,7 @@ describe('HierarchicalTokenBucket', () => {
       });
       depleteBucketByCapacity(bucket, 10);
 
-      expect(bucket.take()).toEqual(1);
+      expect(bucket.take()).toEqual(1000);
     });
 
     test('should return > 0 if parent bucket lacks capacity', () => {
@@ -184,7 +184,7 @@ describe('HierarchicalTokenBucket', () => {
         refillRate: 1
       });
 
-      expect(bucket.take()).toEqual(0.1);
+      expect(bucket.take()).toEqual(100); // 100ms
     });
 
     test('should return greater of parent or child if both lack capacity', () => {
@@ -200,7 +200,7 @@ describe('HierarchicalTokenBucket', () => {
 
       depleteBucketByCapacity(bucket, 10);
 
-      expect(bucket.take()).toEqual(1);
+      expect(bucket.take()).toEqual(1000);
     });
   });
 
