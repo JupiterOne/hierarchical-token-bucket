@@ -2,9 +2,13 @@
   "name": "@jupiterone/hierarchical-token-bucket",
   "version": "0.3.1",
   "description": "A simple hierarchical token bucket",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JupiterOne/hierarchical-token-bucket"
+  },
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "license": "MIT",
   "files": [
     "dist/",
     "package.json",

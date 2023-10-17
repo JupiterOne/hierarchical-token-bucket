@@ -1,0 +1,12 @@
+openapi: 3.0.1
+info:
+  title: '@jupiterone/hierarchical-token-bucket'
+  description: A simple hierarchical token bucket
+  x-cortex-git:
+    github:
+      repository: JupiterOne/hierarchical-token-bucket
+  x-cortex-owners:
+    - type: group
+      name: JupiterOne/integrations
+  x-cortex-service-groups: tier-4
+  x-cortex-tag: '@jupiterone/hierarchical-token-bucket'
